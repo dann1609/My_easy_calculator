@@ -13,11 +13,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button bmas, bmenos, bpor, bentre, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpunto, bc, bac, bporcentaje, braiz, bmasomenos, bigual;
-    int estado=0,CICLONUMERICO=0,CICLOOPERADOR=1;
-    Double numhis=0d,numdisp=0d;
-    Boolean swdot=false;
-    TextView longDisplay,shortDisplay;
-    String shortDisplayString="0",longDisplayString="",lastoperator,DEVELOP="Desarrollo";
+    int estado = 0, CICLONUMERICO = 0, CICLOOPERADOR = 1, NumDecsSig=10;
+    Double numhis = 0d, numdisp = 0d;
+    Boolean swdot = false, swig=false;
+    TextView longDisplay, shortDisplay;
+    String shortDisplayString = "0", longDisplayString = "", lastoperator, DEVELOP = "Desarrollo";
     View.OnClickListener handler;
 
     @Override
@@ -26,119 +26,155 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        longDisplay= (TextView) findViewById(R.id.longdisplay);
-        shortDisplay=(TextView) findViewById(R.id.shortdisplay);
+        longDisplay = (TextView) findViewById(R.id.longdisplay);
+        shortDisplay = (TextView) findViewById(R.id.shortdisplay);
 
         setShortDisplay(shortDisplayString);
         setLongDisplay(longDisplayString);
 
-        bmas= (Button) findViewById(R.id.bmas);
+        bmas = (Button) findViewById(R.id.bmas);
         bmas.setTag("+");
-        bmenos= (Button) findViewById(R.id.bmenos);
+        bmenos = (Button) findViewById(R.id.bmenos);
         bmenos.setTag("-");
-        bpor= (Button) findViewById(R.id.bpor);
+        bpor = (Button) findViewById(R.id.bpor);
         bpor.setTag("x");
-        bentre= (Button) findViewById(R.id.bentre);
+        bentre = (Button) findViewById(R.id.bentre);
         bentre.setTag("/");
-        b0= (Button) findViewById(R.id.b0);
+        b0 = (Button) findViewById(R.id.b0);
         b0.setTag(0);
-        b1= (Button) findViewById(R.id.b1);
+        b1 = (Button) findViewById(R.id.b1);
         b1.setTag(1);
-        b2= (Button) findViewById(R.id.b2);
+        b2 = (Button) findViewById(R.id.b2);
         b2.setTag(2);
-        b3= (Button) findViewById(R.id.b3);
+        b3 = (Button) findViewById(R.id.b3);
         b3.setTag(3);
-        b4= (Button) findViewById(R.id.b4);
+        b4 = (Button) findViewById(R.id.b4);
         b4.setTag(4);
-        b5= (Button) findViewById(R.id.b5);
+        b5 = (Button) findViewById(R.id.b5);
         b5.setTag(5);
-        b6= (Button) findViewById(R.id.b6);
+        b6 = (Button) findViewById(R.id.b6);
         b6.setTag(6);
-        b7= (Button) findViewById(R.id.b7);
+        b7 = (Button) findViewById(R.id.b7);
         b7.setTag(7);
-        b8= (Button) findViewById(R.id.b8);
+        b8 = (Button) findViewById(R.id.b8);
         b8.setTag(8);
-        b9= (Button) findViewById(R.id.b9);
+        b9 = (Button) findViewById(R.id.b9);
         b9.setTag(9);
-        bpunto= (Button) findViewById(R.id.bpunto);
+        bpunto = (Button) findViewById(R.id.bpunto);
         bpunto.setTag(".");
-        bc= (Button) findViewById(R.id.bc);
-        bac= (Button) findViewById(R.id.bac);
-        bporcentaje= (Button) findViewById(R.id.bporcentaje);
-        braiz= (Button) findViewById(R.id.braiz);
-        bmasomenos= (Button) findViewById(R.id.bmasomenos);
-        bigual= (Button) findViewById(R.id.bigual);
+        bc = (Button) findViewById(R.id.bc);
+        bac = (Button) findViewById(R.id.bac);
+        bporcentaje = (Button) findViewById(R.id.bporcentaje);
+        braiz = (Button) findViewById(R.id.braiz);
+        bmasomenos = (Button) findViewById(R.id.bmasomenos);
+        bigual = (Button) findViewById(R.id.bigual);
+        bigual.setTag("=");
 
 
-        Double alfa=3.1416;
-        Double beta=3.1d;
-        Log.d(DEVELOP,alfa.toString());
-        Log.d(DEVELOP,beta.toString());
+        Double alfa = 3.1416;
+        Double beta = 3.3d;
+        Double gamma=0d;
+        Log.d(DEVELOP+"1", getOnResultFormat(alfa));
+        Log.d(DEVELOP+"2", getOnResultFormat(beta));
+        Log.d(DEVELOP+"3", getOnResultFormat(gamma));
 
-        handler = new View.OnClickListener(){
+        handler = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                    //Si se teclea un número
-                    if(isNumeric(view)){
-                        estado=0;
-                        if(view.getTag().toString()=="."){
-                            if(!swdot){
-                                shortDisplayString = shortDisplayString.concat(String.valueOf(view.getTag()));
-                                swdot=true;
-                            }
+                //Si se teclea un número
+                if (isNumeric(view)) {
+                    estado = 0;
+                    if (view.getTag().toString() == ".") {
+                        if (!swdot) {
+                            shortDisplayString = shortDisplayString.concat(String.valueOf(view.getTag()));
+                            swdot = true;
                         }
+                    } else {
+                        //Si el display numerico es igual a 0
+                        if (shortDisplayString == "0" || swig) {
+                            //Se Remplaza por el numero
+                            shortDisplayString = view.getTag().toString();
+                        }
+                        //Si el display numerico no es igual a 0
                         else {
-                            //Si el display numerico es igual a 0
-                            if (shortDisplayString == "0") {
-                                //Se Remplaza por el numero
-                                shortDisplayString = view.getTag().toString();
-                            }
-                            //Si el display numerico no es igual a 0
-                            else {
-                                //Se le agrega el otro número
-                                shortDisplayString = shortDisplayString.concat(String.valueOf(view.getTag()));
-                            }
+                            //Se le agrega el otro número
+                            shortDisplayString = shortDisplayString.concat(String.valueOf(view.getTag()));
                         }
-                        //Se actualiza el display numérico
-                        setShortDisplay(shortDisplayString);
-
                     }
-                //Si lo último es un operador
-                if(estado==0&&isOperator(view)){
-                    //Si se teclea un operador
+                    //Se actualiza el display numérico
+                    setShortDisplay(shortDisplayString);
+                    if(swig){
+                        numhis=0d;
+                        longDisplayString="";
+                        setLongDisplay(longDisplayString);
+                        swig=false;
+                    }
+                }
+                if (estado == 1 && isOperator(view)) {
+                    lastoperator = view.getTag().toString();
+                    longDisplayString = longDisplayString.substring(0, longDisplayString.length() - 1) + view.getTag().toString();
+                    setLongDisplay(longDisplayString);
+                }
+                //Si se teclea un operador
+                if (estado == 0 && isOperator(view)) {
 
-                        numdisp=Double.parseDouble(shortDisplayString);
-                        Log.d(DEVELOP,shortDisplayString.substring(shortDisplayString.length() - 1));
-                        //Si el display numerico termina en "."
-                        if(shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")){
-                            //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
-                            longDisplayString=longDisplayString.concat(shortDisplayString.substring(0,shortDisplayString.length() - 1)+view.getTag().toString());
-                            //carga el numero desde el display
-                            numdisp=Double.parseDouble(shortDisplayString.substring(0,shortDisplayString.length() - 1));
-                            //Actualiza el display
-                            setLongDisplay(longDisplayString);
-                        }else{
-                            //Pone en la carga del display de historial el display numerico y el operador
-                            longDisplayString=longDisplayString.concat(shortDisplayString+view.getTag().toString());
-                            //carga el numero desde el display
-                            numdisp=Double.parseDouble(shortDisplayString);
-                            setLongDisplay(longDisplayString);
+                    swdot=false;
+                    numdisp = Double.parseDouble(shortDisplayString);
+                    Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
+                    //Si el display numerico termina en "."
+                    if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
+                        //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
+                        longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
+                        //carga el numero desde el display
+                        numdisp = Double.parseDouble(shortDisplayString.substring(0, shortDisplayString.length() - 1));
+
+                    } else {
+                        //Pone en la carga del display de historial el display numerico y el operador
+                        longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
+                        //carga el numero desde el display
+                        numdisp = Double.parseDouble(shortDisplayString);
+                    }
+                    //Actualiza el display
+                    setLongDisplay(longDisplayString);
+
+                    //si hubo un operador anterior es decir no es el primer operador que se presiona
+                    if (lastoperator != null) {
+                        //numero del historial operalo con el numero del shortdisplay
+                        numhis = doOperation(numhis, numdisp, lastoperator);
+                        ResultadosEnFormato result= new ResultadosEnFormato(numhis,NumDecsSig);
+                        //muestra el resultado en el short diaplay
+                        setShortDisplay(result.getNumeroToDisplay());
+                        swdot=result.isDot();
+                        //El valor del short display se reasigna a 0
+                        shortDisplayString = "0";
+                    } else {
+                        swig=false;
+                        //se carga el valor del shortdisplay para una futura operacion
+                        numhis = Double.parseDouble(shortDisplayString);
+                        //se asigna el shortdisplay string a 0
+                        shortDisplayString = "0";
+                        //se muestra el short display en 0
+                        setShortDisplay(shortDisplayString);
+                        if(view.getTag()=="="){
+                            ResultadosEnFormato result= new ResultadosEnFormato(numhis,NumDecsSig);
+                            //muestra el resultado en el short diaplay
+                            setShortDisplay(result.getNumeroToDisplay());
+                            swdot=result.isDot();
                         }
-                        if(lastoperator!=null){
-                            numhis=doOperation(numhis,numdisp,lastoperator);
-                            setShortDisplay(numhis.toString());
-                            shortDisplayString="0";
-                        }else{numhis=Double.parseDouble(shortDisplayString);}
-                        lastoperator=view.getTag().toString();
-                    estado=1;
+                    }
+                    lastoperator = view.getTag().toString();
+                    estado = 1;
+                    if(lastoperator=="="){
+                        estado=0;
+                        shortDisplayString = getOnResultFormat(numhis);
+                        longDisplayString="";
+                        lastoperator=null;
+                        swig=true;
+                    }
 
                 }
-                    if(estado==1&&isOperator(view)){
-                        lastoperator=view.getTag().toString();
-                        longDisplayString=longDisplayString.substring(0,longDisplayString.length() - 1)+view.getTag().toString();
-                        setLongDisplay(longDisplayString);
-                    }
+
 
             }
         };
@@ -158,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         bmenos.setOnClickListener(handler);
         bpor.setOnClickListener(handler);
         bentre.setOnClickListener(handler);
+        bigual.setOnClickListener(handler);
 
     }
 
@@ -183,49 +220,68 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Boolean isNumeric(View view){
-        int id=view.getId();
-        if(view.getId()==b0.getId()
-                ||id==b1.getId()
-                ||id==b2.getId()
-                ||id==b3.getId()
-                ||id==b4.getId()
-                ||id==b5.getId()
-                ||id==b6.getId()
-                ||id==b7.getId()
-                ||id==b8.getId()
-                ||id==b9.getId()
-                ||id==bpunto.getId()){return true;}else{return false;}
+    private Boolean isNumeric(View view) {
+        int id = view.getId();
+        if (view.getId() == b0.getId()
+                || id == b1.getId()
+                || id == b2.getId()
+                || id == b3.getId()
+                || id == b4.getId()
+                || id == b5.getId()
+                || id == b6.getId()
+                || id == b7.getId()
+                || id == b8.getId()
+                || id == b9.getId()
+                || id == bpunto.getId()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    private Boolean isOperator(View view){
-        int id=view.getId();
-        if(id==bmas.getId()
-                ||id==bmenos.getId()
-                ||id==bpor.getId()
-                ||id==bentre.getId()){return true;}else{return false;}
+
+    private Boolean isOperator(View view) {
+        int id = view.getId();
+        if (id == bmas.getId()
+                || id == bmenos.getId()
+                || id == bpor.getId()
+                || id == bentre.getId()
+                || id == bigual.getId()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    private void setShortDisplay(String string){
+
+    private void setShortDisplay(String string) {
         shortDisplay.setText(string);
     }
-    private void setLongDisplay(String string){
+
+    private void setLongDisplay(String string) {
         longDisplay.setText(string);
     }
-    private Double doOperation(Double d1,Double d2,String lastoperator){
-        Double result=0d;
-        switch (lastoperator){
+
+    private Double doOperation(Double d1, Double d2, String lastoperator) {
+        Double result = 0d;
+        switch (lastoperator) {
             case "+":
-                result=d1+d2;
+                result = d1 + d2;
                 break;
             case "-":
-                result=d1-d2;
+                result = d1 - d2;
                 break;
-            case "*":
-                result=d1*d2;
+            case "x":
+                result = d1 * d2;
                 break;
             case "/":
-                result=d1/d2;
+                result = d1 / d2;
                 break;
         }
         return result;
+    }
+
+    private String getOnResultFormat(Double d){
+
+        ResultadosEnFormato result= new ResultadosEnFormato(d,NumDecsSig);
+        return result.getNumeroToDisplay();
     }
 }
