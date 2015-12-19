@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
         bpunto = (Button) findViewById(R.id.bpunto);
         bpunto.setTag(".");
         bc = (Button) findViewById(R.id.bc);
+        bc.setTag("c");
         bac = (Button) findViewById(R.id.bac);
+        bac.setTag("ac");
         bporcentaje = (Button) findViewById(R.id.bporcentaje);
         braiz = (Button) findViewById(R.id.braiz);
         bmasomenos = (Button) findViewById(R.id.bmasomenos);
@@ -184,6 +186,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                if(view.getTag()=="ac"){
+                    lastoperator=null;
+                    estado=0;
+                    shortDisplayString="0";
+                    longDisplayString="";
+                    swdot=false;
+                    swig=false;
+                    setShortDisplay(shortDisplayString);
+                    setLongDisplay(longDisplayString);
+                }
+
+                if(view.getTag()=="c" && estado==0){
+                    shortDisplayString="0";
+                    swdot=false;
+                    setShortDisplay(shortDisplayString);
+                    if(swig==true){
+                        setLongDisplay(longDisplayString);
+                    }
+                }
 
             }
         };
@@ -204,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
         bpor.setOnClickListener(handler);
         bentre.setOnClickListener(handler);
         bigual.setOnClickListener(handler);
+        bc.setOnClickListener(handler);
+        bac.setOnClickListener(handler);
 
     }
 
