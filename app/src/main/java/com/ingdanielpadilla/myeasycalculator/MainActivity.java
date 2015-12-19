@@ -113,66 +113,75 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (estado == 1 && isOperator(view)) {
                     lastoperator = view.getTag().toString();
-                    longDisplayString = longDisplayString.substring(0, longDisplayString.length() - 1) + view.getTag().toString();
+                        longDisplayString = longDisplayString.substring(0, longDisplayString.length() - 1) + view.getTag().toString();
                     setLongDisplay(longDisplayString);
-                }
-                //Si se teclea un operador
-                if (estado == 0 && isOperator(view)) {
-
-                    swdot=false;
-                    numdisp = Double.parseDouble(shortDisplayString);
-                    Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
-                    //Si el display numerico termina en "."
-                    if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
-                        //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
-                        longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
-                        //carga el numero desde el display
-                        numdisp = Double.parseDouble(shortDisplayString.substring(0, shortDisplayString.length() - 1));
-
-                    } else {
-                        //Pone en la carga del display de historial el display numerico y el operador
-                        longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
-                        //carga el numero desde el display
-                        numdisp = Double.parseDouble(shortDisplayString);
-                    }
-                    //Actualiza el display
-                    setLongDisplay(longDisplayString);
-
-                    //si hubo un operador anterior es decir no es el primer operador que se presiona
-                    if (lastoperator != null) {
-                        //numero del historial operalo con el numero del shortdisplay
-                        numhis = doOperation(numhis, numdisp, lastoperator);
-                        ResultadosEnFormato result= new ResultadosEnFormato(numhis,NumDecsSig);
-                        //muestra el resultado en el short diaplay
-                        setShortDisplay(result.getNumeroToDisplay());
-                        swdot=result.isDot();
-                        //El valor del short display se reasigna a 0
-                        shortDisplayString = "0";
-                    } else {
-                        swig=false;
-                        //se carga el valor del shortdisplay para una futura operacion
-                        numhis = Double.parseDouble(shortDisplayString);
-                        //se asigna el shortdisplay string a 0
-                        shortDisplayString = "0";
-                        //se muestra el short display en 0
+                    if(view.getTag()=="="){
+                        estado = 0;
+                        shortDisplayString = getOnResultFormat(numhis);
                         setShortDisplay(shortDisplayString);
-                        if(view.getTag()=="="){
-                            ResultadosEnFormato result= new ResultadosEnFormato(numhis,NumDecsSig);
+                        longDisplayString = "";
+                        lastoperator = null;
+                        swig = true;
+                    }
+                }else {
+                    //Si se teclea un operador
+                    if (estado == 0 && isOperator(view)) {
+
+                        swdot = false;
+                        numdisp = Double.parseDouble(shortDisplayString);
+                        Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
+                        //Si el display numerico termina en "."
+                        if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
+                            //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
+                            longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
+                            //carga el numero desde el display
+                            numdisp = Double.parseDouble(shortDisplayString.substring(0, shortDisplayString.length() - 1));
+
+                        } else {
+                            //Pone en la carga del display de historial el display numerico y el operador
+                            longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
+                            //carga el numero desde el display
+                            numdisp = Double.parseDouble(shortDisplayString);
+                        }
+                        //Actualiza el display
+                        setLongDisplay(longDisplayString);
+
+                        //si hubo un operador anterior es decir no es el primer operador que se presiona
+                        if (lastoperator != null) {
+                            //numero del historial operalo con el numero del shortdisplay
+                            numhis = doOperation(numhis, numdisp, lastoperator);
+                            ResultadosEnFormato result = new ResultadosEnFormato(numhis, NumDecsSig);
                             //muestra el resultado en el short diaplay
                             setShortDisplay(result.getNumeroToDisplay());
-                            swdot=result.isDot();
+                            swdot = result.isDot();
+                            //El valor del short display se reasigna a 0
+                            shortDisplayString = "0";
+                        } else {
+                            swig = false;
+                            //se carga el valor del shortdisplay para una futura operacion
+                            numhis = Double.parseDouble(shortDisplayString);
+                            //se asigna el shortdisplay string a 0
+                            shortDisplayString = "0";
+                            //se muestra el short display en 0
+                            setShortDisplay(shortDisplayString);
+                            if (view.getTag() == "=") {
+                                ResultadosEnFormato result = new ResultadosEnFormato(numhis, NumDecsSig);
+                                //muestra el resultado en el short diaplay
+                                setShortDisplay(result.getNumeroToDisplay());
+                                swdot = result.isDot();
+                            }
                         }
-                    }
-                    lastoperator = view.getTag().toString();
-                    estado = 1;
-                    if(lastoperator=="="){
-                        estado=0;
-                        shortDisplayString = getOnResultFormat(numhis);
-                        longDisplayString="";
-                        lastoperator=null;
-                        swig=true;
-                    }
+                        lastoperator = view.getTag().toString();
+                        estado = 1;
+                        if (lastoperator == "=") {
+                            estado = 0;
+                            shortDisplayString = getOnResultFormat(numhis);
+                            longDisplayString = "";
+                            lastoperator = null;
+                            swig = true;
+                        }
 
+                    }
                 }
 
 

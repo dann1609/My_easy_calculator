@@ -22,6 +22,7 @@ public class ResultadosEnFormato {
             diferencial=d-dint;
             d5=(diferencial * 100000);
             dsig=d5.intValue();
+            Log.d("Desarrollo-n", Integer.toString(solve));
             Log.d("Desarrollo", Integer.toString(dint));
             Log.d("Desarrollo", Double.toString(diferencial));
             Log.d("Desarrollo", Integer.toString(dsig));
