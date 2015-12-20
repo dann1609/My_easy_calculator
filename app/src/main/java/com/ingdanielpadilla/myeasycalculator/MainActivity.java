@@ -67,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
         bac = (Button) findViewById(R.id.bac);
         bac.setTag("ac");
         bporcentaje = (Button) findViewById(R.id.bporcentaje);
+        bporcentaje.setTag("%");
         braiz = (Button) findViewById(R.id.braiz);
+        braiz.setTag("\u221A");
         bmasomenos = (Button) findViewById(R.id.bmasomenos);
+        bmasomenos.setTag("+/-");
         bigual = (Button) findViewById(R.id.bigual);
         bigual.setTag("=");
 
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         if (shortDisplayString == "0" || swig) {
                             //Se Remplaza por el numero
                             shortDisplayString = view.getTag().toString();
+                            swdot=false;
                         }
                         //Si el display numerico no es igual a 0
                         else {
@@ -187,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(view.getTag()=="ac"){
+                    numhis=0d;
                     lastoperator=null;
                     estado=0;
                     shortDisplayString="0";
@@ -204,6 +209,67 @@ public class MainActivity extends AppCompatActivity {
                     if(swig==true){
                         setLongDisplay(longDisplayString);
                     }
+                }
+                Log.d(DEVELOP,shortDisplayString);
+                if(view.getTag()=="+/-" && estado==0 && !shortDisplayString.equals("0")){
+                    if(shortDisplayString.substring(0,1).equals("-")) {
+                        Log.d(DEVELOP,shortDisplayString.substring(1,shortDisplayString.length()));
+                        shortDisplayString = shortDisplayString.substring(1,shortDisplayString.length());
+
+                    }else{
+                        Log.d(DEVELOP,shortDisplayString);
+                        shortDisplayString = "-" + shortDisplayString;
+                    }
+                    setShortDisplay(shortDisplayString);
+
+                }
+
+                if(isSpecialOperator(view) && estado==0 && !shortDisplayString.equals("0")){
+
+                    swdot = false;
+                    numdisp = Double.parseDouble(shortDisplayString);
+                    Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
+                    //Si el display numerico termina en "."
+                    if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
+                        //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
+                        longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
+                        //carga el numero desde el display
+                        numdisp = Double.parseDouble(shortDisplayString.substring(0, shortDisplayString.length() - 1));
+
+                    } else {
+                        //Pone en la carga del display de historial el display numerico y el operador
+                        longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
+                        //carga el numero desde el display
+                        numdisp = Double.parseDouble(shortDisplayString);
+                    }
+                    //Actualiza el display
+                    setLongDisplay(longDisplayString);
+
+                    //si hubo un operador anterior es decir no es el primer operador que se presiona
+
+                    //numero del historial operalo con el numero del shortdisplay
+                    if(lastoperator==null){
+                        lastoperator="x";
+                        numhis=1d;
+                    }
+                    if(view.getTag()=="%") {
+                        numhis = doOperation(numhis, numdisp / 100, lastoperator);
+                    }
+                    if(view.getTag()=="\u221A"){
+                        numhis = doOperation(numhis, Math.sqrt(numdisp), lastoperator);
+                    }
+                    ResultadosEnFormato result = new ResultadosEnFormato(numhis, NumDecsSig);
+                    //muestra el resultado en el short diaplay
+                    setShortDisplay(result.getNumeroToDisplay());
+                    swdot = result.isDot();
+                    //El valor del short display se reasigna a 0
+                    shortDisplayString = "0";
+                    estado=1;
+                    estado = 0;
+                    shortDisplayString = getOnResultFormat(numhis);
+                    longDisplayString = "";
+                    lastoperator = null;
+                    swig = true;
                 }
 
             }
@@ -227,7 +293,9 @@ public class MainActivity extends AppCompatActivity {
         bigual.setOnClickListener(handler);
         bc.setOnClickListener(handler);
         bac.setOnClickListener(handler);
-
+        bmasomenos.setOnClickListener(handler);
+        bporcentaje.setOnClickListener(handler);
+        braiz.setOnClickListener(handler);
     }
 
     @Override
@@ -284,8 +352,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private Boolean isSpecialOperator(View view){
+        int id=view.getId();
+        if(id==bporcentaje.getId()
+                || id== braiz.getId()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     private void setShortDisplay(String string) {
         shortDisplay.setText(string);
+    }
+
+    private String getShortDisplay(){
+        return shortDisplay.getText().toString();
     }
 
     private void setLongDisplay(String string) {
