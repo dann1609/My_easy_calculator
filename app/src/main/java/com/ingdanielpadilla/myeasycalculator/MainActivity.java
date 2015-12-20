@@ -291,12 +291,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
-
-                Log.d(DEVELOP+"ss",Double.toString(numhis));
-                Log.d(DEVELOP+"ss",shortDisplayString);
-                Log.d(DEVELOP+"ss",getShortDisplay().toString());
-                Log.d(DEVELOP+"mm",Double.toString(nummem));
-
             }
         };
 
