@@ -83,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
         bmmenos = (Button) findViewById(R.id.bmmenos);
         bmmenos.setTag("mmenos");
 
-        Double alfa = 3.1416;
-        Double beta = 3.3d;
-        Double gamma = 0d;
-        Log.d(DEVELOP + "1", getOnResultFormat(alfa));
-        Log.d(DEVELOP + "2", getOnResultFormat(beta));
-        Log.d(DEVELOP + "3", getOnResultFormat(gamma));
 
         handler = new View.OnClickListener() {
             @Override

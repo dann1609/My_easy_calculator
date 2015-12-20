@@ -16,15 +16,17 @@ public class ResultadosEnFormato {
         this.NumDecsSig=i;
 
         while(sw && solve<NumDecsSig){
-            int dint=d.intValue();
-            diferencial=d-dint;
+            double ddo=d;
+            long dlong=(long) ddo;
+            diferencial=d-dlong;
             d5=(diferencial * 100000);
             dsig=d5.intValue();
             //Log.d("Desarrollo-n", Integer.toString(solve));
-            //Log.d("Desarrollo", Integer.toString(dint));
+            //Log.d("Desarrollo", Long.toString(dlong));
             //Log.d("Desarrollo", Double.toString(diferencial));
             //Log.d("Desarrollo", Integer.toString(dsig));
             //Log.d("Desarrollo", Double.toString(d5));
+            //Log.d("Desarrollo", Double.toString(ddo));
             if(dsig==0||dsig==99999){
                 sw=false;
             }
