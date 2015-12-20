@@ -79,9 +79,9 @@
             android:orientation="vertical"
             android:gravity="bottom">
             <Button
-                android:id="@+id/bmc"
+                android:id="@+id/bms"
                 style="@style/Memory"
-                android:text="MC"
+                android:text="MS"
                 android:gravity="center"/>
             <Button
                 android:id="@+id/b7"

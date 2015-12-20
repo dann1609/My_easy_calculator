@@ -12,10 +12,10 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button bmas, bmenos, bpor, bentre, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpunto, bc, bac, bporcentaje, braiz, bmasomenos, bigual;
-    int estado = 0, CICLONUMERICO = 0, CICLOOPERADOR = 1, NumDecsSig=10;
-    Double numhis = 0d, numdisp = 0d;
-    Boolean swdot = false, swig=false;
+    Button bmas, bmenos, bpor, bentre, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpunto, bc, bac, bporcentaje, braiz, bmasomenos, bigual, bms, bmr, bmmenos, bmmas;
+    int estado = 0, CICLONUMERICO = 0, CICLOOPERADOR = 1, NumDecsSig = 10;
+    Double numhis = 0d, numdisp = 0d, nummem=0d;
+    Boolean swdot = false, swig = false;
     TextView longDisplay, shortDisplay;
     String shortDisplayString = "0", longDisplayString = "", lastoperator, DEVELOP = "Desarrollo";
     View.OnClickListener handler;
@@ -74,14 +74,21 @@ public class MainActivity extends AppCompatActivity {
         bmasomenos.setTag("+/-");
         bigual = (Button) findViewById(R.id.bigual);
         bigual.setTag("=");
-
+        bms = (Button) findViewById(R.id.bms);
+        bms.setTag("ms");
+        bmr = (Button) findViewById(R.id.bmr);
+        bmr.setTag("mr");
+        bmmas = (Button) findViewById(R.id.bmmas);
+        bmmas.setTag("mmas");
+        bmmenos = (Button) findViewById(R.id.bmmenos);
+        bmmenos.setTag("mmenos");
 
         Double alfa = 3.1416;
         Double beta = 3.3d;
-        Double gamma=0d;
-        Log.d(DEVELOP+"1", getOnResultFormat(alfa));
-        Log.d(DEVELOP+"2", getOnResultFormat(beta));
-        Log.d(DEVELOP+"3", getOnResultFormat(gamma));
+        Double gamma = 0d;
+        Log.d(DEVELOP + "1", getOnResultFormat(alfa));
+        Log.d(DEVELOP + "2", getOnResultFormat(beta));
+        Log.d(DEVELOP + "3", getOnResultFormat(gamma));
 
         handler = new View.OnClickListener() {
             @Override
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         if (shortDisplayString == "0" || swig) {
                             //Se Remplaza por el numero
                             shortDisplayString = view.getTag().toString();
-                            swdot=false;
+                            swdot = false;
                         }
                         //Si el display numerico no es igual a 0
                         else {
@@ -110,18 +117,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //Se actualiza el display numérico
                     setShortDisplay(shortDisplayString);
-                    if(swig){
-                        numhis=0d;
-                        longDisplayString="";
+                    if (swig) {
+                        numhis = 0d;
+                        longDisplayString = "";
                         setLongDisplay(longDisplayString);
-                        swig=false;
+                        swig = false;
                     }
                 }
                 if (estado == 1 && isOperator(view)) {
                     lastoperator = view.getTag().toString();
-                        longDisplayString = longDisplayString.substring(0, longDisplayString.length() - 1) + view.getTag().toString();
+                    longDisplayString = longDisplayString.substring(0, longDisplayString.length() - 1) + view.getTag().toString();
                     setLongDisplay(longDisplayString);
-                    if(view.getTag()=="="){
+                    if (view.getTag() == "=") {
                         estado = 0;
                         shortDisplayString = getOnResultFormat(numhis);
                         setShortDisplay(shortDisplayString);
@@ -129,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         lastoperator = null;
                         swig = true;
                     }
-                }else {
+                } else {
                     //Si se teclea un operador
                     if (estado == 0 && isOperator(view)) {
 
@@ -190,41 +197,41 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if(view.getTag()=="ac"){
-                    numhis=0d;
-                    lastoperator=null;
-                    estado=0;
-                    shortDisplayString="0";
-                    longDisplayString="";
-                    swdot=false;
-                    swig=false;
+                if (view.getTag() == "ac") {
+                    numhis = 0d;
+                    lastoperator = null;
+                    estado = 0;
+                    shortDisplayString = "0";
+                    longDisplayString = "";
+                    swdot = false;
+                    swig = false;
                     setShortDisplay(shortDisplayString);
                     setLongDisplay(longDisplayString);
                 }
 
-                if(view.getTag()=="c" && estado==0){
-                    shortDisplayString="0";
-                    swdot=false;
+                if (view.getTag() == "c" && estado == 0) {
+                    shortDisplayString = "0";
+                    swdot = false;
                     setShortDisplay(shortDisplayString);
-                    if(swig==true){
+                    if (swig == true) {
                         setLongDisplay(longDisplayString);
                     }
                 }
-                Log.d(DEVELOP,shortDisplayString);
-                if(view.getTag()=="+/-" && estado==0 && !shortDisplayString.equals("0")){
-                    if(shortDisplayString.substring(0,1).equals("-")) {
-                        Log.d(DEVELOP,shortDisplayString.substring(1,shortDisplayString.length()));
-                        shortDisplayString = shortDisplayString.substring(1,shortDisplayString.length());
+                Log.d(DEVELOP, shortDisplayString);
+                if (view.getTag() == "+/-" && estado == 0 && !shortDisplayString.equals("0")) {
+                    if (shortDisplayString.substring(0, 1).equals("-")) {
+                        Log.d(DEVELOP, shortDisplayString.substring(1, shortDisplayString.length()));
+                        shortDisplayString = shortDisplayString.substring(1, shortDisplayString.length());
 
-                    }else{
-                        Log.d(DEVELOP,shortDisplayString);
+                    } else {
+                        Log.d(DEVELOP, shortDisplayString);
                         shortDisplayString = "-" + shortDisplayString;
                     }
                     setShortDisplay(shortDisplayString);
 
                 }
 
-                if(isSpecialOperator(view) && estado==0 && !shortDisplayString.equals("0")){
+                if (isSpecialOperator(view) && estado == 0 && !shortDisplayString.equals("0")) {
 
                     swdot = false;
                     numdisp = Double.parseDouble(shortDisplayString);
@@ -248,14 +255,14 @@ public class MainActivity extends AppCompatActivity {
                     //si hubo un operador anterior es decir no es el primer operador que se presiona
 
                     //numero del historial operalo con el numero del shortdisplay
-                    if(lastoperator==null){
-                        lastoperator="x";
-                        numhis=1d;
+                    if (lastoperator == null) {
+                        lastoperator = "x";
+                        numhis = 1d;
                     }
-                    if(view.getTag()=="%") {
+                    if (view.getTag() == "%") {
                         numhis = doOperation(numhis, numdisp / 100, lastoperator);
                     }
-                    if(view.getTag()=="\u221A"){
+                    if (view.getTag() == "\u221A") {
                         numhis = doOperation(numhis, Math.sqrt(numdisp), lastoperator);
                     }
                     ResultadosEnFormato result = new ResultadosEnFormato(numhis, NumDecsSig);
@@ -264,13 +271,37 @@ public class MainActivity extends AppCompatActivity {
                     swdot = result.isDot();
                     //El valor del short display se reasigna a 0
                     shortDisplayString = "0";
-                    estado=1;
+                    estado = 1;
                     estado = 0;
                     shortDisplayString = getOnResultFormat(numhis);
                     longDisplayString = "";
                     lastoperator = null;
                     swig = true;
                 }
+
+                if(isMemoryOperator(view)){
+                    switch (view.getTag().toString())
+                    {
+                        case "ms":
+                            nummem=Double.parseDouble(getShortDisplay());
+                            break;
+                        case "mr":
+                            shortDisplayString=getOnResultFormat(nummem);
+                            setShortDisplay(shortDisplayString);
+                            break;
+                        case "mmas":
+                            nummem=nummem+Double.parseDouble(getShortDisplay());
+                            break;
+                        case "mmenos":
+                            nummem=nummem-Double.parseDouble(getShortDisplay());
+                            break;
+                    }
+                }
+
+                Log.d(DEVELOP+"ss",Double.toString(numhis));
+                Log.d(DEVELOP+"ss",shortDisplayString);
+                Log.d(DEVELOP+"ss",getShortDisplay().toString());
+                Log.d(DEVELOP+"mm",Double.toString(nummem));
 
             }
         };
@@ -296,6 +327,10 @@ public class MainActivity extends AppCompatActivity {
         bmasomenos.setOnClickListener(handler);
         bporcentaje.setOnClickListener(handler);
         braiz.setOnClickListener(handler);
+        bms.setOnClickListener(handler);
+        bmr.setOnClickListener(handler);
+        bmmas.setOnClickListener(handler);
+        bmmenos.setOnClickListener(handler);
     }
 
     @Override
@@ -352,10 +387,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean isSpecialOperator(View view){
-        int id=view.getId();
-        if(id==bporcentaje.getId()
-                || id== braiz.getId()){
+    private Boolean isSpecialOperator(View view) {
+        int id = view.getId();
+        if (id == bporcentaje.getId()
+                || id == braiz.getId()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean isMemoryOperator(View view){
+        int id= view.getId();
+        if(id== bms.getId()
+                || id==bmr.getId()
+                || id== bmmas.getId()
+                || id==bmmenos.getId()){
             return true;
         }else{
             return false;
@@ -366,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
         shortDisplay.setText(string);
     }
 
-    private String getShortDisplay(){
+    private String getShortDisplay() {
         return shortDisplay.getText().toString();
     }
 
@@ -393,9 +440,9 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    private String getOnResultFormat(Double d){
+    private String getOnResultFormat(Double d) {
 
-        ResultadosEnFormato result= new ResultadosEnFormato(d,NumDecsSig);
+        ResultadosEnFormato result = new ResultadosEnFormato(d, NumDecsSig);
         return result.getNumeroToDisplay();
     }
 }
