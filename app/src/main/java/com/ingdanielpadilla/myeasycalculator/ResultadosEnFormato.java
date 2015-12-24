@@ -1,7 +1,5 @@
 package com.ingdanielpadilla.myeasycalculator;
 
-import android.util.Log;
-
 /**
  * Created by Lucia on 17/12/2015.
  */

@@ -26,10 +26,8 @@
             android:text="Aca va el historial de operaciones" />
         <TextView
             android:id="@+id/shortdisplay"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:text="Aca van el numero digitandose" />
+            style="@style/ShortDisplay"
+            android:text="-000000000000" />
     </LinearLayout>
 
 
