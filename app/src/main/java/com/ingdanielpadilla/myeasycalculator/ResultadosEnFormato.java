@@ -36,7 +36,7 @@ public class ResultadosEnFormato {
                 d=diferencial*10;
                 solve++;
             }
-            Log.d("Desarrollo solve",Integer.toString(solve));
+            //Log.d("Desarrollo solve",Integer.toString(solve));
         }
         if(dsig==99999) {
             this.numero = this.numero + 1/(10*(solve+1));
