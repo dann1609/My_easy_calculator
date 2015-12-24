@@ -2,7 +2,6 @@ package com.ingdanielpadilla.myeasycalculator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
                         swdot = false;
                         numdisp = Double.parseDouble(shortDisplayString);
-                        Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
+                        //Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
                         //Si el display numerico termina en "."
                         if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
                             //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
@@ -211,14 +210,14 @@ public class MainActivity extends AppCompatActivity {
                         setLongDisplay(longDisplayString);
                     }
                 }
-                Log.d(DEVELOP, shortDisplayString);
+                //Log.d(DEVELOP, shortDisplayString);
                 if (view.getTag() == "+/-" && estado == 0 && !shortDisplayString.equals("0")) {
                     if (shortDisplayString.substring(0, 1).equals("-")) {
-                        Log.d(DEVELOP, shortDisplayString.substring(1, shortDisplayString.length()));
+                        //Log.d(DEVELOP, shortDisplayString.substring(1, shortDisplayString.length()));
                         shortDisplayString = shortDisplayString.substring(1, shortDisplayString.length());
 
                     } else {
-                        Log.d(DEVELOP, shortDisplayString);
+                       //Log.d(DEVELOP, shortDisplayString);
                         shortDisplayString = "-" + shortDisplayString;
                     }
                     setShortDisplay(shortDisplayString);
@@ -229,17 +228,31 @@ public class MainActivity extends AppCompatActivity {
 
                     swdot = false;
                     numdisp = Double.parseDouble(shortDisplayString);
-                    Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
+                    //Log.d(DEVELOP, shortDisplayString.substring(shortDisplayString.length() - 1));
                     //Si el display numerico termina en "."
                     if (shortDisplayString.substring(shortDisplayString.length() - 1).equals(".")) {
-                        //ELimina el punto y pone en la carga del display de historial el display numerico y el operador
-                        longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
+                        //Elimina el punto y pone en la carga del display de historial el display numerico y el operador
+                        switch (view.getTag().toString()) {
+                            case "%":
+                            longDisplayString = longDisplayString.concat(shortDisplayString.substring(0, shortDisplayString.length() - 1) + view.getTag().toString());
+                                break;
+                            case "\u221A":
+                                longDisplayString = longDisplayString.concat(view.getTag().toString() + shortDisplayString.substring(0, shortDisplayString.length() - 1));
+                                break;
+                        }
                         //carga el numero desde el display
                         numdisp = Double.parseDouble(shortDisplayString.substring(0, shortDisplayString.length() - 1));
 
                     } else {
                         //Pone en la carga del display de historial el display numerico y el operador
-                        longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
+                        switch (view.getTag().toString()) {
+                            case "%":
+                                longDisplayString = longDisplayString.concat(shortDisplayString + view.getTag().toString());
+                                break;
+                            case "\u221A":
+                                longDisplayString = longDisplayString.concat(view.getTag().toString() + shortDisplayString);
+                                break;
+                        }
                         //carga el numero desde el display
                         numdisp = Double.parseDouble(shortDisplayString);
                     }
