@@ -20,6 +20,7 @@
             android:text="" />
         <TextView
             android:id="@+id/longdisplay"
+            style="@style/LongDisplay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

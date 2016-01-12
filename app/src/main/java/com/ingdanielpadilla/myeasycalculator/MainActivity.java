@@ -295,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                         case "mr":
                             shortDisplayString=getOnResultFormat(nummem);
                             setShortDisplay(shortDisplayString);
+                            estado=0;
                             break;
                         case "mmas":
                             nummem=nummem+Double.parseDouble(getShortDisplay());

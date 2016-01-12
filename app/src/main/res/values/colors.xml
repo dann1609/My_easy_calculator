@@ -7,4 +7,5 @@
     <color name="colorGrisAzul">#0F333D</color>
     <color name="colorGrisAzulClaro">#1A6073</color>
     <color name="colorBlanco">@android:color/white</color>
+    <color name="colorNegro">@android:color/black</color>
 </resources>
