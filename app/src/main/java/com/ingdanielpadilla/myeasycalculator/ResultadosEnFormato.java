@@ -1,5 +1,7 @@
 package com.ingdanielpadilla.myeasycalculator;
 
+import android.util.Log;
+
 /**
  * Created by Lucia on 17/12/2015.
  */
@@ -21,12 +23,12 @@ public class ResultadosEnFormato {
             diferencial=d-dlong;
             d5=(diferencial * 100000);
             dsig=d5.intValue();
-            //Log.d("Desarrollo-n", Integer.toString(solve));
-            //Log.d("Desarrollo", Long.toString(dlong));
-            //Log.d("Desarrollo", Double.toString(diferencial));
-            //Log.d("Desarrollo", Integer.toString(dsig));
-            //Log.d("Desarrollo", Double.toString(d5));
-            //Log.d("Desarrollo", Double.toString(ddo));
+            Log.d("Desarrollo-n", Integer.toString(solve));
+            Log.d("Desarrollo", Long.toString(dlong));
+            Log.d("Desarrollo", Double.toString(diferencial));
+            Log.d("Desarrollo", Integer.toString(dsig));
+            Log.d("Desarrollo", Double.toString(d5));
+            Log.d("Desarrollo", Double.toString(ddo));
             if(dsig==0||dsig==99999){
                 sw=false;
             }
@@ -39,11 +41,13 @@ public class ResultadosEnFormato {
         if(dsig==99999) {
             this.numero = this.numero + 1/(10*(solve+1));
         }
+        Log.d("Desarrollo-result", Double.toString(this.numero));
     }
     public int getSolve(){return this.solve;}
     public Double getNumero(){return this.numero;}
     public String getNumeroToDisplay(){
         String numToDisp;
+
         switch (solve){
             case 0:
                 numToDisp= String.format("%.0f", this.numero);
