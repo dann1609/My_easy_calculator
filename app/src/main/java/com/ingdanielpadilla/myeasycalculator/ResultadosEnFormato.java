@@ -96,7 +96,7 @@ public class ResultadosEnFormato {
                 numToDisp= String.format("%.9f", this.numero);
                 break;
             default:
-                numToDisp= String.format("%.10f", this.numero);
+                numToDisp= Double.toString(this.numero);
                 break;
         }
         return numToDisp;
